@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  nextcloud:
+    image: nextcloud:latest
+    container_name: nextcloud
+    restart: always
+    volumes:
+      - nextcloud_data:/var/www/html
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=K4wi827@
+      - MYSQL_ROOT_PASSWORD=2021250FK4wi827@
+      - OVERWRITEPROTOCOL=https
+      - OVERWRITEHOST=nextcloud.yorekhouse.com
+    ports:
+      - 80:80
+    depends_on:
+      - db
+    networks:
+      - nextcloud_network
+
+  db:
+    image: mariadb:latest
+    container_name: nextcloud_db
+    restart: always
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=2021250FK4wi827@
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=K4wi827@
+    networks:
+      - nextcloud_network
+
+networks:
+  nextcloud_network:
+    driver: bridge
+
+volumes:
+  nextcloud_data:
+  db_data:
